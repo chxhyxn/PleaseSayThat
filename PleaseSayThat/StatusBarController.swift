@@ -16,7 +16,7 @@ class StatusBarController {
         // 먼저 popover 초기화
         popover = NSPopover()
         popover.contentSize = NSSize(width: 240, height: 180)
-        popover.behavior = .transient
+        popover.behavior = .applicationDefined
         
         // 그 다음 statusBar 초기화
         statusBar = NSStatusBar.system
