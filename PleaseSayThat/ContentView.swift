@@ -1,61 +1,24 @@
-//
-//  ContentView.swift
-//  PleaseSayThat
-//
-//  Created by SeanCho on 3/25/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @State private var viewModel = ContentViewModel()
+    
     var body: some View {
-        VStack(spacing: 30) {
-            // App logo or title
-            Image(systemName: "person.3.fill")
-                .font(.system(size: 80))
-                .foregroundColor(.blue)
-            
-            Text("Room Chat")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            Spacer()
-                .frame(height: 50)
-            
-            // Create room button
-            Button(action: {
-                
-            }) {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Create Room")
-                }
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .frame(width: 280, height: 60)
-                .background(Color.blue)
-                .cornerRadius(15)
+        VStack {
+            switch viewModel.currentScreen {
+            case .main:
+                MainScreenView(viewModel: viewModel)
+            case .createRoom:
+                CreateRoomView(viewModel: viewModel)
+            case .joinRoom:
+                JoinRoomView(viewModel: viewModel)
+            case .roomDetail(let roomId):
+                RoomDetailView(viewModel: viewModel, roomId: roomId)
             }
-            
-            // Join room button
-            Button(action: {
-                
-            }) {
-                HStack {
-                    Image(systemName: "person.badge.plus.fill")
-                    Text("Join Room")
-                }
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .frame(width: 280, height: 60)
-                .background(Color.green)
-                .cornerRadius(15)
-            }
-            
-            Spacer()
         }
-        .padding()
     }
 }
+
+
+
+
