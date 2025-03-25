@@ -11,9 +11,6 @@ class StatusBarController {
     private var statusBar: NSStatusBar
     private var statusItem: NSStatusItem
     private var popover: NSPopover
-    private var timer: Timer?
-    private var timeLeft: Int = 0
-    private var isTimerRunning = false
     
     init() {
         // 먼저 popover 초기화
