@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  ContentViewModel.swift
 //  PleaseSayThat
 //
 //  Created by SeanCho on 3/25/25.
@@ -103,4 +103,26 @@ class ContentViewModel {
         navigateToRoomDetail(roomId: roomId)
         return true
     }
+    
+    // 사용 가능한 방 목록 가져오기 (실제 구현에서는 네트워크 요청 등을 통해 가져옵니다)
+    func fetchAvailableRooms() async -> [AvailableRoom] {
+        // 여기서는 샘플 데이터를 반환합니다
+        // 실제 구현에서는 서버에서 데이터를 가져옵니다
+        return [
+            AvailableRoom(id: UUID(), name: "General Chat", memberCount: 8, maxMembers: 10),
+            AvailableRoom(id: UUID(), name: "Game Night", memberCount: 4, maxMembers: 12),
+            AvailableRoom(id: UUID(), name: "Study Group", memberCount: 3, maxMembers: 8),
+            AvailableRoom(id: UUID(), name: "Coffee Break", memberCount: 5, maxMembers: 6),
+            AvailableRoom(id: UUID(), name: "Movie Discussions", memberCount: 7, maxMembers: 15),
+            AvailableRoom(id: UUID(), name: "Book Club", memberCount: 6, maxMembers: 10)
+        ]
+    }
 }
+
+//// 사용 가능한 방 모델 (JoinRoomView에서도 사용)
+//struct AvailableRoom: Identifiable {
+//    let id: UUID
+//    let name: String
+//    let memberCount: Int
+//    let maxMembers: Int
+//}
