@@ -137,7 +137,7 @@ struct RoomDetailView: View {
                                     isSelected: roomStatus == config.status
                                 ) {
                                     selectedStatus = config.status
-                                    showStatusChangeAlert = true
+                                    roomStatus = selectedStatus
                                 }
                             }
                         }
@@ -148,52 +148,5 @@ struct RoomDetailView: View {
             
             Spacer()
         }
-        .alert("Change Room Status", isPresented: $showStatusChangeAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Change") {
-                roomStatus = selectedStatus
-                // Here you would call a method to update the room status in your data model
-            }
-        } message: {
-            Text("Are you sure you want to change the room status to '\(selectedStatus.rawValue.capitalized)'?")
-        }
-    }
-}
-
-// Helper struct for status button configuration
-struct StatusButtonConfig {
-    let status: RoomStatus
-    let icon: String
-    let color: Color
-}
-
-// Status button component
-struct StatusButton: View {
-    let icon: String
-    let title: String
-    let color: Color
-    let isSelected: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack {
-                Image(systemName: icon)
-                    .font(.system(size: 24))
-                    .foregroundColor(.white)
-                    .frame(width: 50, height: 50)
-                    .background(color)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 3)
-                    )
-                
-                Text(title)
-                    .font(.caption)
-                    .foregroundColor(.primary)
-            }
-        }
-        .buttonStyle(PlainButtonStyle())
     }
 }

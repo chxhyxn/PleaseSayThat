@@ -118,11 +118,3 @@ class ContentViewModel {
         ]
     }
 }
-
-//// 사용 가능한 방 모델 (JoinRoomView에서도 사용)
-//struct AvailableRoom: Identifiable {
-//    let id: UUID
-//    let name: String
-//    let memberCount: Int
-//    let maxMembers: Int
-//}
