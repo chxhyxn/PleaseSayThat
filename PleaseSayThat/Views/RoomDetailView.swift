@@ -102,32 +102,29 @@ struct RoomDetailView: View {
                 }
             }
             
-            // 2행 3열의 버튼들 (방 상태 변경)
-            if isOwner {
-                VStack(spacing: 20) {
-                    Text("Change Room Status")
-                        .font(.headline)
-                        .padding(.top, 20)
-                    
-                    ForEach(0..<2, id: \.self) { row in
-                        HStack(spacing: 15) {
-                            ForEach(0..<3, id: \.self) { col in
-                                let config = statusButtons[row][col]
-                                StatusButton(
-                                    icon: config.icon,
-                                    title: config.status.rawValue.capitalized,
-                                    color: config.color,
-                                    isSelected: roomStatus == config.status
-                                ) {
-                                    selectedStatus = config.status
-                                    roomStatus = selectedStatus
-                                }
+            VStack(spacing: 20) {
+                Text("Change Room Status")
+                    .font(.headline)
+                    .padding(.top, 20)
+                
+                ForEach(0..<2, id: \.self) { row in
+                    HStack(spacing: 15) {
+                        ForEach(0..<3, id: \.self) { col in
+                            let config = statusButtons[row][col]
+                            StatusButton(
+                                icon: config.icon,
+                                title: config.status.rawValue.capitalized,
+                                color: config.color,
+                                isSelected: roomStatus == config.status
+                            ) {
+                                selectedStatus = config.status
+                                roomStatus = selectedStatus
                             }
                         }
                     }
                 }
-                .padding()
             }
+            .padding()
             
             Spacer()
         }
