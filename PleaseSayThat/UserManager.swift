@@ -12,6 +12,7 @@ class UserManager {
     
     /// Private initializer to enforce singleton pattern
     private init() {
+        logger.debug("UserManager initializing...")
         loadUser()
     }
     
@@ -150,7 +151,30 @@ class UserManager {
             let decoder = JSONDecoder()
             let user = try decoder.decode(User.self, from: userData)
             self.currentUser = user
-            logger.info("User loaded successfully with ID: \(user.id.uuidString)")
+            
+            // Log detailed user information
+            logger.info("====== Existing User Loaded Successfully ======")
+            logger.info("User ID: \(user.id.uuidString)")
+            logger.info("Username: \(user.username)")
+            logger.info("Participating in \(user.participatingRoomIds.count) rooms")
+            logger.info("Owns \(user.ownedRoomIds.count) rooms")
+            
+            if let lastRoomId = user.lastAccessedRoomId {
+                logger.info("Last accessed room ID: \(lastRoomId.uuidString)")
+            } else {
+                logger.info("No last accessed room")
+            }
+            
+            // Log room IDs if they exist
+            if !user.participatingRoomIds.isEmpty {
+                logger.debug("Participating room IDs: \(user.participatingRoomIds.map { $0.uuidString }.joined(separator: ", "))")
+            }
+            
+            if !user.ownedRoomIds.isEmpty {
+                logger.debug("Owned room IDs: \(user.ownedRoomIds.map { $0.uuidString }.joined(separator: ", "))")
+            }
+            
+            logger.info("==============================================")
         } catch {
             logger.error("Error decoding user data: \(error.localizedDescription)")
             print("Error loading user data: \(error.localizedDescription)")
