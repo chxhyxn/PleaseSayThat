@@ -15,8 +15,12 @@ struct PleaseSayThatApp: App {
     @State private var userManager = UserManager.shared
     
     var body: some Scene {
-        Settings {
-            EmptyView()
+        WindowGroup {
+            if userManager.currentUser?.lastAccessedRoomId == nil {
+                ContentView()
+            } else {
+                ContentView()
+            }
         }
     }
 }
