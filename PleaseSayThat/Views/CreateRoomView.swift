@@ -1,10 +1,3 @@
-//
-//  CreateRoomView.swift
-//  PleaseSayThat
-//
-//  Created by SeanCho on 3/25/25.
-//
-
 import SwiftUI
 
 // 방 생성 화면 뷰
@@ -84,12 +77,28 @@ struct CreateRoomView: View {
     }
     
     private func createRoom() {
-        if viewModel.createRoom(name: roomName, maxMembers: maxMembers) {
-            // 성공적으로 생성되면 방 상세 화면으로 자동 이동 (이미 ViewModel에서 처리됨)
-        } else {
-            // 실패시 알림
-            alertMessage = "Unable to create room. Please try again."
-            showingAlert = true
+        // 실제로는 로그인 정보 등에서 유저 UUID를 받아와야 합니다.
+        // 여기서는 간단히 new UUID를 예시로 사용합니다.
+        let ownerId = UUID()
+        
+        // RoomManager를 통해 Firestore에 방 생성 요청 (비동기)
+        RoomManager.shared.createRoom(
+            name: roomName,
+            ownerId: ownerId,
+            maximumMemberCount: maxMembers
+        ) { result in
+            switch result {
+            case .success(let room):
+                // 성공 시: 뷰 이동/로직 등 처리
+                // 여기서는 ViewModel 함수를 호출해서 방 목록 갱신 or 상세 화면 이동
+                print("1")
+//                viewModel.didCreateRoom(room: room)
+                
+            case .failure(let error):
+                // 실패 시: alert 표시
+                alertMessage = "Unable to create room. \(error.localizedDescription)"
+                showingAlert = true
+            }
         }
     }
 }
