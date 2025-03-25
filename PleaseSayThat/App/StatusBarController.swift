@@ -29,7 +29,7 @@ class StatusBarController {
         }
         
         // 마지막으로 popover의 contentViewController 설정
-        popover.contentViewController = NSHostingController(rootView: Color(.red))
+        popover.contentViewController = NSHostingController(rootView: PopOverView())
     }
     
     @objc func togglePopover() {
