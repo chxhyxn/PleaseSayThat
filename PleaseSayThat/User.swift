@@ -24,8 +24,6 @@ struct User: Identifiable, Codable, Hashable {
     /// Create a new user with default values
     init(id: UUID = UUID(),
          username: String,
-         email: String,
-         profileImageName: String? = nil,
          participatingRoomIds: [UUID] = [],
          ownedRoomIds: [UUID] = [],
          lastAccessedRoomId: UUID? = nil) {
