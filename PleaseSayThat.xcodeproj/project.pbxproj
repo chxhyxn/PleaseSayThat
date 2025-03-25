@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B96F3FB12D92DFED009B17BC /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = B96F3FB02D92DFED009B17BC /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		B96F3FBD2D92EAFE009B17BC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B96F3FBC2D92EAFE009B17BC /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B96F3FB12D92DFED009B17BC /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				B96F3FBD2D92EAFE009B17BC /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +73,7 @@
 			name = PleaseSayThat;
 			packageProductDependencies = (
 				B96F3FB02D92DFED009B17BC /* FirebaseAnalyticsWithoutAdIdSupport */,
+				B96F3FBC2D92EAFE009B17BC /* FirebaseFirestore */,
 			);
 			productName = PleaseSayThat;
 			productReference = B9789D6A2D927CFF00FC5A5D /* PleaseSayThat.app */;
@@ -345,6 +348,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B96F3FAF2D92DFED009B17BC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		B96F3FBC2D92EAFE009B17BC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B96F3FAF2D92DFED009B17BC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
