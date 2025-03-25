@@ -28,10 +28,10 @@ class ContentViewModel {
     // 마지막 접속한 방 확인 및 설정
     private func checkLastAccessedRoom() {
         if let currentUser = userManager.currentUser,
-           let lastRoomId = currentUser.lastAccessedRoomId {
+           let currentRoomId = currentUser.currentRoomId {
             // 사용자의, 마지막 접속한 방이 있으면 해당 방으로 이동
-            selectedRoomId = lastRoomId
-            currentScreen = .roomDetail(lastRoomId)
+            selectedRoomId = currentRoomId
+            currentScreen = .roomDetail(currentRoomId)
         }
     }
     

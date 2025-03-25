@@ -17,7 +17,7 @@ struct User: Identifiable, Codable, Hashable {
     var ownedRoomIds: [UUID]
     
     /// ID of the last room the user accessed
-    var lastAccessedRoomId: UUID?
+    var currentRoomId: UUID?
     
     // MARK: - Initialization
     
@@ -26,11 +26,11 @@ struct User: Identifiable, Codable, Hashable {
          username: String,
          participatingRoomIds: [UUID] = [],
          ownedRoomIds: [UUID] = [],
-         lastAccessedRoomId: UUID? = nil) {
+         currentRoomId: UUID? = nil) {
         self.id = id
         self.username = username
         self.participatingRoomIds = participatingRoomIds
         self.ownedRoomIds = ownedRoomIds
-        self.lastAccessedRoomId = lastAccessedRoomId
+        self.currentRoomId = currentRoomId
     }
 }

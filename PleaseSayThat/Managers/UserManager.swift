@@ -111,7 +111,7 @@ class UserManager {
         }
         
         logger.info("Updating last accessed room to \(roomId.uuidString)")
-        user.lastAccessedRoomId = roomId
+        user.currentRoomId = roomId
         self.currentUser = user
         saveUser()
     }
@@ -159,8 +159,8 @@ class UserManager {
             logger.info("Participating in \(user.participatingRoomIds.count) rooms")
             logger.info("Owns \(user.ownedRoomIds.count) rooms")
             
-            if let lastRoomId = user.lastAccessedRoomId {
-                logger.info("Last accessed room ID: \(lastRoomId.uuidString)")
+            if let currentRoomId = user.currentRoomId {
+                logger.info("current room ID: \(currentRoomId.uuidString)")
             } else {
                 logger.info("No last accessed room")
             }
