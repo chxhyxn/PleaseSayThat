@@ -33,7 +33,7 @@ struct Room: Identifiable, Codable, Hashable {
          ownerId: UUID,
          maximumMemberCount: Int = 10,
          currentMemberIds: [UUID] = [],
-         currentStatus: RoomStatus = .pending) {
+         currentStatus: RoomStatus = .base) {
         
         self.id = id
         self.name = name

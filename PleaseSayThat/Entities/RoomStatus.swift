@@ -9,9 +9,11 @@ import SwiftUI
 
 /// Room status enum representing different states of a room
 enum RoomStatus: String, Codable, CaseIterable {
-    case open       // Room is open and accepting new members
-    case inProgress // Room activity is in progress
-    case closed     // Room is closed and not accepting new members
-    case pending    // Room is waiting to start
-    case archived   // Room is archived (historical)
+    case base
+    case niceTry
+    case clap
+    case breakTime
+    case otherOpinion
+    case organize
+    case mountain
 }

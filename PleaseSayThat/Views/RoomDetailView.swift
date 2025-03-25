@@ -17,21 +17,21 @@ struct RoomDetailView: View {
     @State private var memberCount: Int = 5
     @State private var maxMembers: Int = 10
     @State private var isOwner: Bool = true
-    @State private var roomStatus: RoomStatus = .open
+    @State private var roomStatus: RoomStatus = .base
     @State private var showStatusChangeAlert = false
-    @State private var selectedStatus: RoomStatus = .open
+    @State private var selectedStatus: RoomStatus = .base
     
     // Status button configuration
     private let statusButtons: [[StatusButtonConfig]] = [
         [
-            StatusButtonConfig(status: .open, icon: "door.left.hand.open", color: .green),
-            StatusButtonConfig(status: .inProgress, icon: "person.3.sequence.fill", color: .blue),
-            StatusButtonConfig(status: .pending, icon: "clock", color: .yellow)
+            StatusButtonConfig(status: .niceTry, icon: "door.left.hand.open", color: .green),
+            StatusButtonConfig(status: .clap, icon: "person.3.sequence.fill", color: .blue),
+            StatusButtonConfig(status: .breakTime, icon: "clock", color: .yellow)
         ],
         [
-            StatusButtonConfig(status: .closed, icon: "lock.fill", color: .red),
-            StatusButtonConfig(status: .archived, icon: "archivebox.fill", color: .gray),
-            StatusButtonConfig(status: .pending, icon: "ellipsis", color: .purple)
+            StatusButtonConfig(status: .otherOpinion, icon: "lock.fill", color: .red),
+            StatusButtonConfig(status: .organize, icon: "archivebox.fill", color: .gray),
+            StatusButtonConfig(status: .mountain, icon: "ellipsis", color: .purple)
         ]
     ]
     
@@ -102,7 +102,7 @@ struct RoomDetailView: View {
                 // 방 상태 표시
                 HStack {
                     Circle()
-                        .fill(roomStatus == .open ? Color.green : Color.orange)
+                        .fill(roomStatus == .base ? Color.green : Color.orange)
                         .frame(width: 8, height: 8)
                     
                     Text(roomStatus.rawValue.capitalized)
