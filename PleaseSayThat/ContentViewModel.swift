@@ -28,6 +28,21 @@ class ContentViewModel {
     // 사용자 관리자 참조
     private let userManager = UserManager.shared
     
+    // 초기화 시 마지막 접속한 방 확인 및 설정
+    init() {
+        checkLastAccessedRoom()
+    }
+    
+    // 마지막 접속한 방 확인 및 설정
+    private func checkLastAccessedRoom() {
+        if let currentUser = userManager.currentUser,
+           let lastRoomId = currentUser.lastAccessedRoomId {
+            // 사용자의, 마지막 접속한 방이 있으면 해당 방으로 이동
+            selectedRoomId = lastRoomId
+            currentScreen = .roomDetail(lastRoomId)
+        }
+    }
+    
     // 메인 화면으로 이동
     func navigateToMain() {
         currentScreen = .main
