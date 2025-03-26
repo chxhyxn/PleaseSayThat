@@ -67,6 +67,8 @@ struct RoomDetailView: View {
                             ForEach(Array(participatingRooms.keys), id: \.self) { roomId in
                                 Button(action: {
                                     viewModel.navigateToRoomDetail(roomId: roomId)
+                                    removeRoomListener()
+                                    setupNewRoomListener(newRoomId: roomId)
                                 }) {
                                     HStack {
                                         Text(participatingRooms[roomId] ?? "Unknown Room")
@@ -227,6 +229,65 @@ struct RoomDetailView: View {
         }
     }
     
+    // Firestore 실시간 리스너 설정
+    private func setupNewRoomListener(newRoomId: UUID) {
+        isLoading = true
+        
+        let db = Firestore.firestore()
+        let roomRef = db.collection("rooms").document(newRoomId.uuidString)
+        
+        // 리스너 설정
+        listenerRegistration = roomRef.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching room: \(error?.localizedDescription ?? "Unknown error")")
+                isLoading = false
+                return
+            }
+            
+            guard document.exists else {
+                print("Room document does not exist")
+                isLoading = false
+                return
+            }
+            
+            guard let data = document.data() else {
+                print("Room document is empty")
+                isLoading = false
+                return
+            }
+            
+            DispatchQueue.main.async {
+                // 방 데이터 파싱
+                if let name = data["name"] as? String {
+                    self.roomName = name
+                }
+                
+                if let statusString = data["currentStatus"] as? String,
+                   let status = RoomStatus(rawValue: statusString) {
+                    self.roomStatus = status
+                    // 선택된 상태도 동일하게 설정 (UI에 반영)
+                    self.selectedStatus = status
+                }
+                
+                if let memberCount = data["currentMemberCount"] as? Int {
+                    self.memberCount = memberCount
+                }
+                
+                if let maxMembers = data["maximumMemberCount"] as? Int {
+                    self.maxMembers = maxMembers
+                }
+                
+                // 소유자 확인
+                if let ownerIdString = data["ownerId"] as? String,
+                   let currentUser = UserManager.shared.currentUser {
+                    self.isOwner = (ownerIdString == currentUser.id.uuidString)
+                }
+                
+                self.isLoading = false
+            }
+        }
+    }
+    
     // Firestore 리스너 해제
     private func removeRoomListener() {
         listenerRegistration?.remove()
@@ -283,26 +344,6 @@ struct RoomDetailView: View {
                     print("방 나가기에 실패했습니다: \(error.localizedDescription)")
                 }
             }
-        }
-    }
-    
-    // 상태에 따른 색상 반환
-    private func statusColor(for status: RoomStatus) -> Color {
-        switch status {
-        case .base:
-            return .green
-        case .niceTry:
-            return .green
-        case .clap:
-            return .blue
-        case .breakTime:
-            return .yellow
-        case .otherOpinion:
-            return .red
-        case .organize:
-            return .gray
-        case .mountain:
-            return .purple
         }
     }
 }
