@@ -12,49 +12,48 @@ struct JoinRoomView: View {
     @State private var rooms: [Room] = []
     
     var body: some View {
-        VStack(spacing: 20) {
-            // 헤더
-            HStack {
+        VStack {
+            HStack{
                 Button(action: {
                     viewModel.navigateToMain()
                 }) {
-                    Image(systemName: "arrow.left")
-                        .font(.title3)
-                        .foregroundColor(.blue)
+                    HStack(spacing: 2) {
+                        Image(systemName: "arrow.left")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                        
+                        Text("이전으로")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.black)
+                            .padding()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
                 }
-                
+                .buttonStyle(.plain)
+
                 Spacer()
                 
-                Text("Join Room")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                // 균형을 위한 빈 뷰
-                Image(systemName: "arrow.left")
-                    .font(.title3)
-                    .foregroundColor(.clear)
+                Button(action: {
+                    fetchRooms()
+                }) {
+                    HStack(spacing: 2) {
+                        Image(systemName: "arrow.clockwise")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
+                }
+                .buttonStyle(.plain)
             }
-            .padding(.horizontal)
             
             // 사용 가능한 방 목록 섹션
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Available Rooms")
-                        .font(.headline)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        fetchRooms()
-                    }) {
-                        Image(systemName: "arrow.clockwise")
-                            .foregroundColor(.blue)
-                    }
-                }
-                .padding(.horizontal)
-                
+            VStack {
                 if isLoading {
                     HStack {
                         VStack {
@@ -89,10 +88,9 @@ struct JoinRoomView: View {
                     }
                 } else {
                     ScrollView {
-                        LazyVStack(spacing: 12) {
+                        LazyVStack(spacing: 0) {
                             ForEach(rooms) { room in
                                 RoomListItemView(room: room) {
-                                    // 방 선택 시 처리
                                     joinRoom(room: room)
                                 }
                             }
@@ -102,7 +100,7 @@ struct JoinRoomView: View {
                 }
             }
         }
-        .padding()
+        .padding(24)
         .alert(alertMessage, isPresented: $showingAlert) {
             Button("OK", role: .cancel) { }
         }
