@@ -135,20 +135,22 @@ struct CreateRoomView: View {
     }
     
     private func createRoom() {
-        // 실제로는 로그인 정보 등에서 유저 UUID를 받아와야 합니다.
-        // 여기서는 간단히 new UUID를 예시로 사용합니다.
-        let ownerId = UUID()
+        guard let currentUser = UserManager.shared.currentUser else { return }
         
         // RoomManager를 통해 Firestore에 방 생성 요청 (비동기)
         RoomManager.shared.createRoom(
             name: roomName,
-            ownerId: ownerId,
+            ownerId: currentUser.id,
             maximumMemberCount: maxMembers
         ) { result in
             switch result {
             case .success(let room):
                 // 성공 시: 뷰 이동/로직 등 처리
                 viewModel.navigateToRoomDetail(roomId: room.id)
+                RoomManager.shared.addUserToRoom(roomId: room.id, userId: currentUser.id, completion: {_ in print("1")})
+                UserManager.shared.addParticipatingRoom(roomId: room.id)
+                UserManager.shared.updateLastAccessedRoom(roomId: room.id)
+                RoomManager.shared.refreshListening()
                 
             case .failure(let error):
                 // 실패 시: alert 표시
