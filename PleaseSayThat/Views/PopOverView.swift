@@ -35,10 +35,10 @@ struct PopOverView: View {
         }
         .frame(width: 240, height: 180)
         .onAppear {
-            RoomManager.shared.startListening()
+            roomManager.startListening()
         }
         .onDisappear {
-            RoomManager.shared.stopListening()
+            roomManager.stopListening()
         }
     }
     

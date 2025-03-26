@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBar: StatusBarController?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        statusBar = StatusBarController()
         FirebaseApp.configure()
+        statusBar = StatusBarController()
     }
 }
