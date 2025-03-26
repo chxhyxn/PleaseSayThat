@@ -10,35 +10,32 @@ struct PopOverView: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            HStack {
-                Text(roomManager.roomName)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                
-                Circle()
-                    .fill(statusColor(for: roomManager.currentStatus))
-                    .frame(width: 8, height: 8)
-                
-                Text(roomManager.currentStatus.rawValue.capitalized)
-                    .font(.system(size: 14))
-                
-                Button(action: {
-                    print(roomManager.roomName)
-                    print(roomManager.currentStatus.rawValue.capitalized)
-                }) {
-                    Text("엥엥 ")
+            if let currentUser = UserManager.shared.currentUser {
+                if currentUser.currentRoomId == nil{
+                    Text("참가중인 방이 없습니다.")
+                        .padding()
+                }else {
+                    HStack {
+                        Text(roomManager.roomName)
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                        
+                        Circle()
+                            .fill(statusColor(for: roomManager.currentStatus))
+                            .frame(width: 8, height: 8)
+                        
+                        Text(roomManager.currentStatus.rawValue.capitalized)
+                            .font(.system(size: 14))
+                    }
+                    .frame(width: 240, height: 180)
+                    .onAppear {
+                        roomManager.startListening()
+                    }
+                    .onDisappear {
+                        roomManager.stopListening()
+                    }
                 }
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .cornerRadius(12)
-        }
-        .frame(width: 240, height: 180)
-        .onAppear {
-            roomManager.startListening()
-        }
-        .onDisappear {
-            roomManager.stopListening()
         }
     }
     

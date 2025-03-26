@@ -43,7 +43,8 @@ struct RoomDetailView: View {
             VStack(spacing: 5) {
                 HStack {
                     Button(action: {
-                        viewModel.navigateToMain()
+                        viewModel.navigateToJoinRoom()
+                        UserManager.shared.updateLastAccessedRoom(roomId: nil)
                     }) {
                         Image(systemName: "arrow.left")
                             .font(.title3)
