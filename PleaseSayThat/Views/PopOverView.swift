@@ -42,23 +42,6 @@ struct PopOverView: View {
                 .background(statusColor(for: currentStatus).opacity(0.1))
                 .cornerRadius(12)
             }
-            
-            Spacer()
-            
-            // Open app button
-            Button(action: {
-                openMainApp()
-            }) {
-                Text("Open App")
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(Color.blue)
-                    .cornerRadius(8)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .padding(.bottom, 8)
         }
         .padding(12)
         .frame(width: 240, height: 180)
@@ -130,15 +113,5 @@ struct PopOverView: View {
     private func stopListening() {
         listenerRegistration?.remove()
         isListening = false
-    }
-    
-    // Open the main app
-    private func openMainApp() {
-        NSApp.activate(ignoringOtherApps: true)
-        
-        // Find the app window and bring it to front
-        if let window = NSApp.windows.first(where: { $0.title.contains("PleaseSayThat") }) {
-            window.makeKeyAndOrderFront(nil)
-        }
     }
 }
