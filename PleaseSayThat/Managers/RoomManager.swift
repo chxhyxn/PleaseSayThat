@@ -12,6 +12,10 @@ final class RoomManager: ObservableObject {
     // MARK: - Firestore reference
     private let db = Firestore.firestore()
     
+    @Published var listenerRegistration: ListenerRegistration?
+    @Published var currentStatus: RoomStatus = .base
+    @Published var roomName: String = ""
+
     // MARK: - Create Room
     /// Creates a new room in Firestore.
     ///
@@ -70,5 +74,50 @@ final class RoomManager: ObservableObject {
                 completion(.success(()))
             }
         }
+    }
+    
+    
+    // from popoverview
+    // Start listening for room status changes
+    func startListening() {
+        guard let currentUser = UserManager.shared.currentUser,
+              let roomId = currentUser.currentRoomId else {
+            print("no currentUser")
+            return
+        }
+        
+        print("엥", currentUser.id)
+        print("엥", roomId)
+        
+        let db = Firestore.firestore()
+        let roomRef = db.collection("rooms").document(roomId.uuidString)
+        
+        // Set up real-time listener
+        listenerRegistration = roomRef.addSnapshotListener { snapshot, error in
+            guard let document = snapshot, document.exists,
+                  let data = document.data() else {
+                return
+            }
+            
+            // Get room name
+            if let name = data["name"] as? String {
+                self.roomName = name
+            }
+            
+            // Get current status
+            if let statusString = data["currentStatus"] as? String,
+               let status = RoomStatus(rawValue: statusString) {
+                self.currentStatus = status
+            } else {
+                self.currentStatus = .base
+            }
+        }
+    }
+    
+    // Stop listening when view disappears
+    func stopListening() {
+        listenerRegistration?.remove()
+        self.currentStatus = .base
+        self.roomName = ""
     }
 }
