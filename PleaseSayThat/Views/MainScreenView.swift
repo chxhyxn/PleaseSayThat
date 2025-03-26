@@ -12,20 +12,20 @@ struct MainScreenView: View {
     var viewModel: ContentViewModel
     
     var body: some View {
-        HStack {
-            Image("tree1")
+        ZStack {
+            Image("bg1")
+                .resizable()
+                .scaledToFill()
             
-            VStack {
+            VStack(spacing: 15) {
                 Text("Welcome to \n Meeting Picket!")
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 40, weight: .semibold, design: .default))
+                    .font(.system(size: 36, weight: .semibold))
                     .foregroundColor(.accent)
-                    .padding(.horizontal, 10)
-                    .padding(10)
                 
                 Text("지금, 당신의 마음을 전해보세요!")
-                    .font(.system(size: 15))
-                    .padding(.bottom, 40)
+                    .font(.system(size: 16))
+                    .padding(.bottom, 30)
                     .foregroundColor(.black)
                 
                 HStack {
@@ -34,14 +34,13 @@ struct MainScreenView: View {
                         viewModel.navigateToCreateRoom()
                     }) {
                         Text("방 만들기")
-                            .font(.system(size: 15))
-                            .foregroundColor(.white)
-                            .padding(.vertical, 13)
-                            .padding(.horizontal, 40)
-                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .frame(width: 133, height: 48, alignment: .center)
                             .background(.accent)
+                            .foregroundStyle(.white)
+                            .cornerRadius(8)
                     }
-                    .cornerRadius(10)
                     .buttonStyle(.plain)
                     
                     // 방 참여 버튼
@@ -49,21 +48,20 @@ struct MainScreenView: View {
                         viewModel.navigateToJoinRoom()
                     }) {
                         Text("참여하기")
-                            .font(.system(size: 15))
-                            .padding(.vertical, 13)
-                            .padding(.horizontal,40)
-                            .foregroundColor(.black)
-                            .background(Color.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .frame(width: 133, height: 48, alignment: .center)
+                            .background(.white)
+                            .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .inset(by: 1)
+                                .stroke(Color(red: 0.63, green: 0.63, blue: 0.63), lineWidth: 2)
+                            )
+                            .cornerRadius(8)
                     }
-                    .cornerRadius(10)
                     .buttonStyle(.plain)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color(.gray.opacity(0.8)), lineWidth: 2))
                 }
             }
-            
-            Image("tree1")
         }
     }
 }

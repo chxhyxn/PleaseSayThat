@@ -10,10 +10,10 @@ struct PleaseSayThatApp: App {
             switch launchManager.appState {
             case .loading:
                 ProgressView()
-                    .frame(width: 600, height: 500)
+//                    .frame(width: 726, height: 422)
             case .launched:
                 ContentView()
-                    .frame(width: 600, height: 500)
+//                    .frame(width: 726, height: 422)
                     .preferredColorScheme(.light)
             }
         }
