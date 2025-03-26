@@ -30,7 +30,7 @@ struct JoinRoomView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
-                    .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
+                    .frame(minHeight: 48, maxHeight: 48, alignment: .leading)
                 }
                 .buttonStyle(.plain)
 
@@ -47,7 +47,7 @@ struct JoinRoomView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
-                    .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
+                    .frame(minHeight: 48, maxHeight: 48, alignment: .leading)
                 }
                 .buttonStyle(.plain)
             }
@@ -88,7 +88,7 @@ struct JoinRoomView: View {
                     }
                 } else {
                     ScrollView {
-                        LazyVStack(spacing: 0) {
+                        LazyVStack(spacing: 2) {
                             ForEach(rooms) { room in
                                 RoomListItemView(room: room) {
                                     joinRoom(room: room)

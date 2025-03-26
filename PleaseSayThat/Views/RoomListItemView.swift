@@ -16,15 +16,19 @@ struct RoomListItemView: View {
         Button(action: onTap) {
             HStack {
                 Text(room.name)
-                    .font(.headline)
-                    .foregroundColor(.primary)
-                
-                Text("\(room.currentMemberCount)/\(room.maximumMemberCount) members")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 20)
+                                
                 Spacer()
                 
+                Text("인원 : \(room.currentMemberCount)/\(room.maximumMemberCount)")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 20)
+                
+                Divider()
+
                 // 참여 가능 여부에 따른 아이콘
                 if room.currentMemberCount < room.maximumMemberCount {
                     HStack(spacing: 8) {
@@ -53,7 +57,12 @@ struct RoomListItemView: View {
                     .cornerRadius(8)
                 }
             }
-            .padding()
+            .padding(6)
+            .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .inset(by: 1)
+                .stroke(Color(red: 0.63, green: 0.63, blue: 0.63), lineWidth: 1)
+            )
             .background(Color.gray.opacity(0.1))
             .cornerRadius(8)
         }
