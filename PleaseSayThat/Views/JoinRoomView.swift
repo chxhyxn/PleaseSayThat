@@ -56,35 +56,37 @@ struct JoinRoomView: View {
                 .padding(.horizontal)
                 
                 if isLoading {
-                    VStack {
-                        Spacer()
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .scaleEffect(1.5)
-                        Text("Loading rooms...")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .padding(.top, 8)
-                        Spacer()
+                    HStack {
+                        VStack {
+                            Spacer()
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .scaleEffect(1.5)
+                            Text("Loading rooms...")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .padding(.top, 8)
+                            Spacer()
+                        }
                     }
-                    .frame(height: 300)
                 } else if rooms.isEmpty {
-                    VStack {
-                        Spacer()
-                        Image(systemName: "tray")
-                            .font(.system(size: 40))
-                            .foregroundColor(.gray)
-                        Text("No rooms available")
-                            .font(.headline)
-                            .foregroundColor(.gray)
-                            .padding(.top, 8)
-                        Text("Create a room or refresh to check again")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .padding(.top, 4)
-                        Spacer()
+                    HStack {
+                        VStack {
+                            Spacer()
+                            Image(systemName: "tray")
+                                .font(.system(size: 40))
+                                .foregroundColor(.gray)
+                            Text("No rooms available")
+                                .font(.headline)
+                                .foregroundColor(.gray)
+                                .padding(.top, 8)
+                            Text("Create a room or refresh to check again")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .padding(.top, 4)
+                            Spacer()
+                        }
                     }
-                    .frame(height: 300)
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 12) {

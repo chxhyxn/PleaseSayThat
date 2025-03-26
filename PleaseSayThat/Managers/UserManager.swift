@@ -12,6 +12,8 @@ class UserManager {
     
     /// Private initializer to enforce singleton pattern
     private init() {
+        logger.notice("Resetting UserDefaults before loading user")
+        UserDefaults.standard.removeObject(forKey: userDefaultsKey)
         logger.debug("UserManager initializing...")
         loadUser()
     }
