@@ -19,7 +19,7 @@ struct MainScreenView: View {
                 Text("Welcome to \n Meeting Picket!")
                     .multilineTextAlignment(.center)
                     .font(.system(size: 40, weight: .semibold, design: .default))
-                    .foregroundColor(Color(red: 0.4784, green: 0.5451, blue: 0.2314))
+                    .foregroundColor(.accent)
                     .padding(.horizontal, 10)
                     .padding(10)
                 
@@ -39,7 +39,7 @@ struct MainScreenView: View {
                             .padding(.vertical, 13)
                             .padding(.horizontal, 40)
                             .foregroundColor(.white)
-                            .background(Color(red: 0.4784, green: 0.5451, blue: 0.2314))
+                            .background(.accent)
                     }
                     .cornerRadius(10)
                     .buttonStyle(.plain)
