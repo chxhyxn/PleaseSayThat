@@ -114,17 +114,29 @@ final class RoomManager: ObservableObject {
             room.currentMemberIds.remove(at: index)
             room.currentMemberCount = room.currentMemberIds.count
             
-            do {
-                let updatedData = try FirestoreEncoder().encode(room)
-                roomRef.setData(updatedData) { error in
+            // 유저 카운트가 0이면 방을 삭제
+            if room.currentMemberCount == 0 {
+                roomRef.delete { error in
                     if let error = error {
                         completion(.failure(error))
                     } else {
                         completion(.success(()))
                     }
                 }
-            } catch {
-                completion(.failure(error))
+            } else {
+                // 유저 카운트가 0이 아니면 방 정보 업데이트
+                do {
+                    let updatedData = try FirestoreEncoder().encode(room)
+                    roomRef.setData(updatedData) { error in
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
             }
         }
     }
