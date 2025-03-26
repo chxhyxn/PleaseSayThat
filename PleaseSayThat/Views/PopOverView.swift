@@ -36,24 +36,4 @@ struct PopOverView: View {
             }
         }
     }
-    
-    // Get color for each status
-    private func statusColor(for status: RoomStatus) -> Color {
-        switch status {
-        case .base:
-            return .green
-        case .niceTry:
-            return .green
-        case .clap:
-            return .blue
-        case .breakTime:
-            return .yellow
-        case .otherOpinion:
-            return .red
-        case .organize:
-            return .gray
-        case .mountain:
-            return .purple
-        }
-    }
 }
