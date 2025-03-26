@@ -58,7 +58,7 @@ struct RoomDetailView: View {
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
-                            .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
+                            .frame(minHeight: 48, maxHeight: 48, alignment: .leading)
                         }
                         .buttonStyle(.plain)
                                                 
@@ -85,34 +85,42 @@ struct RoomDetailView: View {
                                 Image(systemName: "chevron.down")
                                     .font(.caption)
                             }
-                            .padding(.vertical, 4)
+                            .padding(.vertical, 40)
                             .padding(.horizontal, 8)
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(6)
                         }
                         
                         Spacer()
-                        
+                                                
                         // 방 상태 표시
-                        HStack {
-                            Text("\(memberCount) members")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            
-                            Button(action: {
-                                exitRoom()
-                            }) {
-                                Text("Exit Room")
-                                    .foregroundColor(.red)
-                                    .font(.caption)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .background(Color.red.opacity(0.1))
-                                    .cornerRadius(4)
+                        Text("인원 : \(memberCount) / \(maxMembers)")
+                            .font(.system(size: 16))
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                        
+                        Button(action: {
+                            exitRoom()
+                        }) {
+                            HStack(spacing: 2) {
+                                Image(systemName: "rectangle.portrait.and.arrow.right")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24, height: 24)
+                                
+                                Text("방 나가기")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(.black.opacity(0.9))
+                                    .padding()
                             }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .frame(minHeight: 48, maxHeight: 48, alignment: .leading)
                         }
-                        .padding(.bottom, 10)
+                        .buttonStyle(.plain)
                     }
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
                 VStack(spacing: 16) {
