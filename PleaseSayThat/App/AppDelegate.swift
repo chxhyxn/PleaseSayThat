@@ -15,5 +15,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         FirebaseApp.configure()
         statusBar = StatusBarController()
+        LaunchManager.shared.appState = .launched
     }
 }
