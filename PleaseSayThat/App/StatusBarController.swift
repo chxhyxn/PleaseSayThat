@@ -29,12 +29,11 @@ class StatusBarController {
         }
         
         // 마지막으로 popover의 contentViewController 설정
-        popover.contentViewController = NSHostingController(rootView: EmptyView())
+        popover.contentViewController = NSHostingController(rootView: PopOverView())
     }
     
     @objc func togglePopover() {
         if popover.isShown {
-            popover.contentViewController = NSHostingController(rootView: PopOverView())
             popover.performClose(nil)
         } else {
             if let statusBarButton = statusItem.button {
