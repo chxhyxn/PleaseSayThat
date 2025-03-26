@@ -76,6 +76,59 @@ final class RoomManager: ObservableObject {
         }
     }
     
+    // MARK: - Remove User from Room (방 나가기)
+    /// 유저가 방에서 나가는 경우, 방의 멤버 리스트와 멤버 수를 업데이트합니다.
+    ///
+    /// - Parameters:
+    ///   - roomId: 나가려는 방의 UUID
+    ///   - userId: 방에서 나가려는 유저의 UUID
+    ///   - completion: 성공 / 실패 결과를 반환할 클로저
+    func removeUserFromRoom(
+        roomId: UUID,
+        userId: UUID,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let roomRef = db.collection("rooms").document(roomId.uuidString)
+        
+        roomRef.getDocument { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let snapshot = snapshot,
+                  snapshot.exists,
+                  var room = try? snapshot.data(as: Room.self) else {
+                completion(.failure(RoomError.roomNotFound))
+                return
+            }
+            
+            // 현재 멤버에 해당 유저가 존재하는지 확인
+            guard let index = room.currentMemberIds.firstIndex(of: userId) else {
+                // 이미 없는 경우
+                completion(.success(()))
+                return
+            }
+            
+            // 해당 유저 제거 후 멤버 수 업데이트
+            room.currentMemberIds.remove(at: index)
+            room.currentMemberCount = room.currentMemberIds.count
+            
+            do {
+                let updatedData = try FirestoreEncoder().encode(room)
+                roomRef.setData(updatedData) { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     // room에 유저한명 추가하는 함수
     
     // from popoverview

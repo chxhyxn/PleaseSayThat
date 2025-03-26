@@ -97,6 +97,18 @@ struct RoomDetailView: View {
                             Text("\(memberCount) members")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
+                            
+                            Button(action: {
+                                exitRoom()
+                            }) {
+                                Text("Exit Room")
+                                    .foregroundColor(.red)
+                                    .font(.caption)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(Color.red.opacity(0.1))
+                                    .cornerRadius(4)
+                            }
                         }
                         .padding(.bottom, 10)
                     }
@@ -258,6 +270,25 @@ struct RoomDetailView: View {
         }
         
         self.participatingRooms = rooms
+    }
+    
+    private func exitRoom() {
+        if let currentUser = UserManager.shared.currentUser {
+            RoomManager.shared.removeUserFromRoom(roomId: roomId, userId: currentUser.id) { result in
+                switch result {
+                case .success:
+                    UserManager.shared.removeParticipatingRoom(roomId: roomId)
+                    
+                    viewModel.navigateToJoinRoom()
+                    UserManager.shared.updateLastAccessedRoom(roomId: nil)
+                    print("방 나가기에 성공했습니다!")
+                    
+                case .failure(let error):
+                    viewModel.navigateToJoinRoom()
+                    print("방 나가기에 실패했습니다: \(error.localizedDescription)")
+                }
+            }
+        }
     }
     
     // 상태에 따른 색상 반환

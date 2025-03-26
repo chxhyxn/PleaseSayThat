@@ -122,6 +122,22 @@ class UserManager {
         saveUser()
     }
     
+    // MARK: - (New) Remove Room
+    /// 사용자가 참여 중이던 방에서 나가는 경우 `participatingRoomIds`에서 제거
+    func removeParticipatingRoom(roomId: UUID) {
+        guard var user = currentUser else {
+            logger.error("Cannot remove participating room: No current user")
+            return
+        }
+        
+        if let index = user.participatingRoomIds.firstIndex(of: roomId) {
+            logger.info("Removing room \(roomId.uuidString) from user's participating rooms")
+            user.participatingRoomIds.remove(at: index)
+            self.currentUser = user
+            saveUser()
+        }
+    }
+    
     // MARK: - Persistence
     
     /// Save current user to UserDefaults
