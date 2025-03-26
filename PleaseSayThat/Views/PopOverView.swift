@@ -9,25 +9,23 @@ struct PopOverView: View {
     @ObservedObject private var roomManager = RoomManager.shared
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack {
             if let currentUser = UserManager.shared.currentUser {
                 if currentUser.currentRoomId == nil{
                     Text("참가중인 방이 없습니다.")
                         .padding()
                 }else {
-                    HStack {
-                        Text(roomManager.roomName)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                        
-                        Circle()
-                            .fill(statusColor(for: roomManager.currentStatus))
-                            .frame(width: 8, height: 8)
-                        
-                        Text(roomManager.currentStatus.rawValue.capitalized)
-                            .font(.system(size: 14))
+                    VStack {
+                        if roomManager.currentStatus == .base {
+                            Text("듣고싶은 말을 팀에게 공유해보세요.")
+                                .padding()
+                        }else {
+                            Image(roomManager.currentStatus.rawValue)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 240, height: 180)
+                        }
                     }
-                    .frame(width: 240, height: 180)
                     .onAppear {
                         roomManager.startListening()
                     }
