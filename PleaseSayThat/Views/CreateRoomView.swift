@@ -90,9 +90,7 @@ struct CreateRoomView: View {
             switch result {
             case .success(let room):
                 // 성공 시: 뷰 이동/로직 등 처리
-                // 여기서는 ViewModel 함수를 호출해서 방 목록 갱신 or 상세 화면 이동
-                print("1")
-//                viewModel.didCreateRoom(room: room)
+                viewModel.navigateToRoomDetail(roomId: room.id)
                 
             case .failure(let error):
                 // 실패 시: alert 표시
