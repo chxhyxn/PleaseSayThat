@@ -122,6 +122,11 @@ final class RoomManager: ObservableObject {
         self.roomName = ""
     }
     
+    func refreshListening() {
+        stopListening()
+        startListening()
+    }
+    
     func addUserToRoom(
         roomId: UUID,
         userId: UUID,

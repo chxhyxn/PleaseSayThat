@@ -183,5 +183,7 @@ struct JoinRoomView: View {
             RoomManager.shared.addUserToRoom(roomId: room.id, userId: currentUser.id, completion: {_ in print("1")})
         }
         UserManager.shared.addParticipatingRoom(roomId: room.id)
+        UserManager.shared.updateLastAccessedRoom(roomId: room.id)
+        RoomManager.shared.refreshListening()
     }
 }
