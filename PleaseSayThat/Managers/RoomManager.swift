@@ -51,4 +51,24 @@ final class RoomManager: ObservableObject {
             completion(.failure(error))
         }
     }
+    
+    func changeRoomStatus(
+        currentRoomId: UUID,
+        selectedStatus: RoomStatus,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        // Create a reference to the room document
+        let roomRef = db.collection("rooms").document(currentRoomId.uuidString)
+        
+        // Update only the currentStatus field
+        roomRef.updateData([
+            "currentStatus": selectedStatus.rawValue
+        ]) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
 }

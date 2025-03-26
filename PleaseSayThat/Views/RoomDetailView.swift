@@ -21,6 +21,7 @@ struct RoomDetailView: View {
     @State private var selectedStatus: RoomStatus = .base
     @State private var participatingRooms: [UUID: String] = [:] // 참여 중인 방 ID와 이름
     @State private var showRoomDropdown: Bool = false
+    @State private var isUpdatingStatus: Bool = false
     
     // Status button configuration
     private let statusButtons: [[StatusButtonConfig]] = [
@@ -118,7 +119,7 @@ struct RoomDetailView: View {
                                 isSelected: roomStatus == config.status
                             ) {
                                 selectedStatus = config.status
-                                roomStatus = selectedStatus
+                                changeRoomStatus()
                             }
                         }
                     }
@@ -131,6 +132,30 @@ struct RoomDetailView: View {
         .onAppear {
             loadRoomData()
             fetchParticipatingRooms()
+        }
+    }
+    
+    // 방 상태 변경 함수
+    private func changeRoomStatus() {
+        guard !isUpdatingStatus else { return }
+        isUpdatingStatus = true
+        
+        RoomManager.shared.changeRoomStatus(
+            currentRoomId: roomId,
+            selectedStatus: selectedStatus
+        ) { result in
+            DispatchQueue.main.async {
+                isUpdatingStatus = false
+                
+                switch result {
+                case .success:
+                    // 상태 업데이트 성공
+                    self.roomStatus = self.selectedStatus
+                case .failure(let error):
+                    // 에러 처리 (실제 구현에서는 적절한 에러 처리 필요)
+                    print("Failed to update room status: \(error.localizedDescription)")
+                }
+            }
         }
     }
     
