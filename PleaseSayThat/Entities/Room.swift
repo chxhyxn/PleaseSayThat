@@ -31,6 +31,7 @@ struct Room: Identifiable, Codable, Hashable {
     init(id: UUID = UUID(),
          name: String,
          ownerId: UUID,
+         currentMemberCount: Int = 0,
          maximumMemberCount: Int = 10,
          currentMemberIds: [UUID] = [],
          currentStatus: RoomStatus = .base) {

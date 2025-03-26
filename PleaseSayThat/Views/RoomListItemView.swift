@@ -9,7 +9,7 @@ import SwiftUI
 
 // 방 목록 아이템 뷰
 struct RoomListItemView: View {
-    let room: AvailableRoom
+    let room: Room
     let onTap: () -> Void
     
     var body: some View {
@@ -20,15 +20,27 @@ struct RoomListItemView: View {
                         .font(.headline)
                         .foregroundColor(.primary)
                     
-                    Text("\(room.memberCount)/\(room.maxMembers) members")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    HStack(spacing: 12) {
+                        Text("\(room.currentMemberCount)/\(room.maximumMemberCount) members")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(room.currentStatus == .base ? Color.green : Color.orange)
+                                .frame(width: 6, height: 6)
+                            
+                            Text(room.currentStatus.rawValue.capitalized)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
                 }
                 
                 Spacer()
                 
                 // 참여 가능 여부에 따른 아이콘
-                if room.memberCount < room.maxMembers {
+                if room.currentMemberCount < room.maximumMemberCount {
                     Image(systemName: "person.badge.plus")
                         .foregroundColor(.green)
                 } else {
@@ -41,7 +53,7 @@ struct RoomListItemView: View {
             .cornerRadius(8)
         }
         .buttonStyle(PlainButtonStyle())
-        .disabled(room.memberCount >= room.maxMembers)
-        .opacity(room.memberCount >= room.maxMembers ? 0.6 : 1.0)
+        .disabled(room.currentMemberCount >= room.maximumMemberCount)
+        .opacity(room.currentMemberCount >= room.maximumMemberCount ? 0.6 : 1.0)
     }
 }
