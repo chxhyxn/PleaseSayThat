@@ -10,6 +10,6 @@ import SwiftUI
 // Helper struct for status button configuration
 struct StatusButtonConfig {
     let status: RoomStatus
-    let icon: String
+    let image: String
     let color: Color
 }

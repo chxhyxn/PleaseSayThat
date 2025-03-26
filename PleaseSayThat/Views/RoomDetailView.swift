@@ -20,14 +20,14 @@ struct RoomDetailView: View {
     // Status button configuration
     private let statusButtons: [[StatusButtonConfig]] = [
         [
-            StatusButtonConfig(status: .niceTry, icon: "door.left.hand.open", color: .green),
-            StatusButtonConfig(status: .clap, icon: "person.3.sequence.fill", color: .blue),
-            StatusButtonConfig(status: .breakTime, icon: "clock", color: .yellow)
+            StatusButtonConfig(status: .niceTry, image: "niceTry", color: .green),
+            StatusButtonConfig(status: .clap, image: "clap", color: .blue),
+            StatusButtonConfig(status: .breakTime, image: "breakTime", color: .yellow)
         ],
         [
-            StatusButtonConfig(status: .otherOpinion, icon: "lock.fill", color: .red),
-            StatusButtonConfig(status: .organize, icon: "archivebox.fill", color: .gray),
-            StatusButtonConfig(status: .mountain, icon: "ellipsis", color: .purple)
+            StatusButtonConfig(status: .otherOpinion, image: "otherOpinion", color: .red),
+            StatusButtonConfig(status: .organize, image: "organize", color: .gray),
+            StatusButtonConfig(status: .mountain, image: "mountain", color: .purple)
         ]
     ]
     
@@ -39,19 +39,29 @@ struct RoomDetailView: View {
                 Spacer()
             } else {
                 // 헤더
-                VStack(spacing: 5) {
+                VStack(spacing: 24) {
                     HStack {
                         Button(action: {
                             viewModel.navigateToJoinRoom()
                             UserManager.shared.updateLastAccessedRoom(roomId: nil)
                         }) {
-                            Image(systemName: "arrow.left")
-                                .font(.title3)
-                                .foregroundColor(.blue)
+                            HStack(spacing: 2) {
+                                Image(systemName: "arrow.left")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24, height: 24)
+                                
+                                Text("이전으로")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(.black)
+                                    .padding()
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
                         }
-                        
-                        Spacer()
-                        
+                        .buttonStyle(.plain)
+                                                
                         // Room dropdown menu
                         Menu {
                             ForEach(Array(participatingRooms.keys), id: \.self) { roomId in
@@ -83,17 +93,6 @@ struct RoomDetailView: View {
                         
                         // 방 상태 표시
                         HStack {
-                            Circle()
-                                .fill(statusColor(for: roomStatus))
-                                .frame(width: 8, height: 8)
-                            
-                            Text(roomStatus.rawValue.capitalized)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            
-                            Text("•")
-                                .foregroundColor(.secondary)
-                            
                             Text("\(memberCount) members")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
@@ -114,17 +113,13 @@ struct RoomDetailView: View {
                     }
                 }
                 
-                VStack(spacing: 20) {
-                    Text("Change Room Status")
-                        .font(.headline)
-                        .padding(.top, 20)
-                    
+                VStack(spacing: 16) {
                     ForEach(0..<2, id: \.self) { row in
-                        HStack(spacing: 15) {
+                        HStack(spacing: 16) {
                             ForEach(0..<3, id: \.self) { col in
                                 let config = statusButtons[row][col]
                                 StatusButton(
-                                    icon: config.icon,
+                                    image: config.image,
                                     title: config.status.rawValue.capitalized,
                                     color: config.color,
                                     isSelected: roomStatus == config.status
