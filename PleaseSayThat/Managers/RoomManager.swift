@@ -140,9 +140,6 @@ final class RoomManager: ObservableObject {
             return
         }
         
-        print("엥", currentUser.id)
-        print("엥", roomId)
-        
         let db = Firestore.firestore()
         let roomRef = db.collection("rooms").document(roomId.uuidString)
         
