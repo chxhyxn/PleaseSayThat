@@ -78,21 +78,4 @@ class ContentViewModel {
         navigateToRoomDetail(roomId: newRoom.id)
         return true
     }
-    
-    // 방 참여 기능
-    func joinRoom(with code: String) -> Bool {
-        // 실제 구현에서는 방 코드를 검증하고 존재하는 방인지 확인합니다
-        // 여기서는 간단히 UUID로 변환만 검증합니다
-        guard let roomId = UUID(uuidString: code),
-              let currentUser = userManager.currentUser else {
-            return false
-        }
-        
-        // 사용자의 참여 방 목록 업데이트
-        userManager.addParticipatingRoom(roomId: roomId)
-        
-        // 방 상세 화면으로 이동
-        navigateToRoomDetail(roomId: roomId)
-        return true
-    }
 }

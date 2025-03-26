@@ -178,6 +178,10 @@ struct JoinRoomView: View {
     
     // 방 참여 처리
     private func joinRoom(room: Room) {
-        viewModel.joinRoom(with: room.id.uuidString)
+        viewModel.navigateToRoomDetail(roomId: room.id)
+        if let currentUser = UserManager.shared.currentUser{
+            RoomManager.shared.addUserToRoom(roomId: room.id, userId: currentUser.id, completion: {_ in print("1")})
+        }
+        UserManager.shared.addParticipatingRoom(roomId: room.id)
     }
 }

@@ -76,6 +76,7 @@ final class RoomManager: ObservableObject {
         }
     }
     
+    // room에 유저한명 추가하는 함수
     
     // from popoverview
     // Start listening for room status changes
@@ -120,4 +121,62 @@ final class RoomManager: ObservableObject {
         self.currentStatus = .base
         self.roomName = ""
     }
+    
+    func addUserToRoom(
+        roomId: UUID,
+        userId: UUID,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let roomRef = db.collection("rooms").document(roomId.uuidString)
+        
+        // 1. Read the current room data
+        roomRef.getDocument { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let snapshot = snapshot, snapshot.exists,
+                  var room = try? snapshot.data(as: Room.self) else {
+                completion(.failure(RoomError.roomNotFound))
+                return
+            }
+            
+            // 2. Check if the user is already in the room
+            if room.currentMemberIds.contains(userId) {
+                // User is already in the room; not necessarily an error.
+                completion(.success(()))
+                return
+            }
+            
+            // 3. Check if the room is at capacity
+            if room.currentMemberCount >= room.maximumMemberCount {
+                completion(.failure(RoomError.roomIsFull))
+                return
+            }
+            
+            // 4. Add the user to the room
+            room.currentMemberIds.append(userId)
+            room.currentMemberCount = room.currentMemberIds.count
+            
+            // 5. Encode and write the updated room back to Firestore
+            do {
+                let updatedData = try FirestoreEncoder().encode(room)
+                roomRef.setData(updatedData) { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+}
+
+enum RoomError: Error {
+    case roomNotFound
+    case roomIsFull
 }

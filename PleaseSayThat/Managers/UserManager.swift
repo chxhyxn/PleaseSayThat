@@ -106,13 +106,17 @@ class UserManager {
     
     /// Update the last accessed room ID
     /// - Parameter roomId: The room ID that was last accessed
-    func updateLastAccessedRoom(roomId: UUID) {
+    func updateLastAccessedRoom(roomId: UUID?) {
         guard var user = currentUser else {
             logger.error("Cannot update last accessed room: No current user")
             return
         }
         
-        logger.info("Updating last accessed room to \(roomId.uuidString)")
+        if roomId == nil {
+            logger.info("Updating last accessed room to nil")
+        }else {
+            logger.info("Updating last accessed room to \(roomId!.uuidString)")
+        }
         user.currentRoomId = roomId
         self.currentUser = user
         saveUser()
