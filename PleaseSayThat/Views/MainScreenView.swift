@@ -12,53 +12,58 @@ struct MainScreenView: View {
     var viewModel: ContentViewModel
     
     var body: some View {
-        VStack(spacing: 30) {
-            // 앱 로고 또는 제목
-            Image(systemName: "person.3.fill")
-                .font(.system(size: 80))
-                .foregroundColor(.blue)
+        HStack {
+            Image("tree1")
             
-            Text("Room Chat")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            Spacer()
-                .frame(height: 50)
-            
-            // 방 생성 버튼
-            Button(action: {
-                viewModel.navigateToCreateRoom()
-            }) {
+            VStack {
+                Text("Welcome to \n Meeting Picket!")
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 40, weight: .semibold, design: .default))
+                    .foregroundColor(Color(red: 0.4784, green: 0.5451, blue: 0.2314))
+                    .padding(.horizontal, 10)
+                    .padding(10)
+                
+                Text("지금, 당신의 마음을 전해보세요!")
+                    .font(.system(size: 15))
+                    .padding(.bottom, 40)
+                    .foregroundColor(.black)
+                
                 HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Create Room")
+                    // 방 생성 버튼
+                    Button(action: {
+                        viewModel.navigateToCreateRoom()
+                    }) {
+                        Text("방 만들기")
+                            .font(.system(size: 15))
+                            .foregroundColor(.white)
+                            .padding(.vertical, 13)
+                            .padding(.horizontal, 40)
+                            .foregroundColor(.white)
+                            .background(Color(red: 0.4784, green: 0.5451, blue: 0.2314))
+                    }
+                    .cornerRadius(10)
+                    .buttonStyle(.plain)
+                    
+                    // 방 참여 버튼
+                    Button(action: {
+                        viewModel.navigateToJoinRoom()
+                    }) {
+                        Text("참여하기")
+                            .font(.system(size: 15))
+                            .padding(.vertical, 13)
+                            .padding(.horizontal,40)
+                            .foregroundColor(.black)
+                            .background(Color.white)
+                    }
+                    .cornerRadius(10)
+                    .buttonStyle(.plain)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color(.gray.opacity(0.8)), lineWidth: 2))
                 }
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .frame(width: 280, height: 60)
-                .background(Color.blue)
-                .cornerRadius(15)
             }
             
-            // 방 참여 버튼
-            Button(action: {
-                viewModel.navigateToJoinRoom()
-            }) {
-                HStack {
-                    Image(systemName: "person.badge.plus.fill")
-                    Text("Join Room")
-                }
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .frame(width: 280, height: 60)
-                .background(Color.green)
-                .cornerRadius(15)
-            }
-            
-            Spacer()
+            Image("tree1")
         }
-        .padding()
     }
 }
