@@ -176,12 +176,19 @@ struct JoinRoomView: View {
     
     // 방 참여 처리
     private func joinRoom(room: Room) {
-        viewModel.navigateToRoomDetail(roomId: room.id)
         if let currentUser = UserManager.shared.currentUser{
-            RoomManager.shared.addUserToRoom(roomId: room.id, userId: currentUser.id, completion: {_ in print("1")})
+            RoomManager.shared.addUserToRoom(roomId: room.id, userId: currentUser.id, completion: { result in
+                switch result {
+                case .success:
+                    // addUserToRoom이 성공해야 밑에를 실행
+                    viewModel.navigateToRoomDetail(roomId: room.id)
+                    UserManager.shared.addParticipatingRoom(roomId: room.id)
+                    UserManager.shared.updateLastAccessedRoom(roomId: room.id)
+                    RoomManager.shared.refreshListening()
+                default:
+                    print("fail to addUserToRoom")
+                }
+            })
         }
-        UserManager.shared.addParticipatingRoom(roomId: room.id)
-        UserManager.shared.updateLastAccessedRoom(roomId: room.id)
-        RoomManager.shared.refreshListening()
     }
 }
