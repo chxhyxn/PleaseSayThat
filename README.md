@@ -1,4 +1,5 @@
-### Demo video: https://youtu.be/A2XUWUsi0OI?si=JTGCAABxxXKTnvpg
+# Demo video: https://youtu.be/A2XUWUsi0OI?si=JTGCAABxxXKTnvpg  
+# Open Beta: https://testflight.apple.com/join/rSwcjzvs  
 
 # Prototype 1
 ![image](https://github.com/user-attachments/assets/13127d84-ffe0-46a4-8a22-dc8966c18466)
